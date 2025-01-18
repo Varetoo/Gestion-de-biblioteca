@@ -1,18 +1,14 @@
-#IMPORTS
+#==================== IMPORTS ====================
 import tkinter as tk
 from tkinter import messagebox
 
 
-#CLASES
-class datoS:    #Datos STOCK
-    def __init__(self, nombre, clave):
+#==================== CLASES ====================
+class dato:    #Datos STOCK
+    def __init__(self, nombre, clave, state):
         self.nombre = nombre
         self.clave = clave
-
-class datoU(datoS): #Datos USUARIO
-    def __init__(self, nombre, clave, premium):
-        super().__init__(nombre, clave)
-        self.premium = premium
+        self.state = state
 
 class user:
     def __init__(self, nombre, premium, prestamos_activos, prestamos_restantes):
@@ -38,25 +34,34 @@ class user:
         self.__prestamos_activos = cadena
 
 
-#BASES DE DATOS
-nombre_base_usuarios = "base_datos.txt"
-nombre_base_stock = "stock_libros.txt"
-def leer_arch():
+#==================== BASES DE DATOS ====================
+#Global
+nombre_arch_usuarios = "Datos/base_datos.txt"
+nombre_arch_stock = "Datos/stock_libros.txt"
+
+#Funciones
+def leer_arch(nombre_archivo):
     try:
-        with open(nombre_base_usuarios, "r+", encoding="utf-8") as base_datos:
-            users_datos = []
+        with open(nombre_archivo, "r+", encoding="utf-8") as base_datos:
+            lista = []
             for linea in base_datos:
-                nombre, pssw, prem = linea.strip().split("    ", maxsplit=3)
-                users_datos.append(datoU(nombre, pssw, prem))
-        return users_datos
+                linea = linea.strip().split("    ", maxsplit=3)
+                lista.append(dato(linea[0], linea[1], linea[2]))
+        return lista
         
 
     except(FileExistsError,FileNotFoundError):
-        messagebox.showerror("Error archivo", "Hay un error con los archivos de datos .txt")
+        messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
 
 
-#CODIGO
+#Main
+users_datos = leer_arch(nombre_arch_usuarios)
+stock_datos = leer_arch(nombre_arch_stock)
+
+
+#==================== CODIGO ====================
 pass
 
-#INTERFAZ
+
+#==================== INTERFAZ ====================
 
