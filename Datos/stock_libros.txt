@@ -1,0 +1,100 @@
+Cien años de soledad    Gabriel García Márquez    7
+El señor de los anillos (Trilogía)    J. R. R. Tolkien    10
+1984    George Orwell    11
+Un mundo feliz    Aldous Huxley    4
+Orgullo y prejuicio    Jane Austen    13
+Crimen y castigo    Fiódor Dostoyevski    5
+Lolita    Vladimir Nabokov    13
+Ulises    James Joyce    6
+Madame Bovary    Gustave Flaubert    7
+En busca del tiempo perdido    Marcel Proust    3
+Don Quijote de la Mancha    Miguel de Cervantes    12
+El retrato de Dorian Gray    Oscar Wilde    9
+Ana Karenina    León Tolstói    10
+El Principito    Antoine de Saint-Exupéry    9
+El proceso    Franz Kafka    10
+El ruido y la furia    William Faulkner    4
+Hamlet    William Shakespeare    9
+Lo que el viento se llevó    Margaret Mitchell    3
+La Odisea    Homero    12
+Las uvas de la ira    John Steinbeck    14
+El guardián entre el centeno    J. D. Salinger    3
+Cumbres borrascosas    Emily Brontë    3
+El gran Gatsby    F. Scott Fitzgerald    14
+Mil soles espléndidos    Khaled Hosseini    3
+Alicia en el país de las maravillas    Lewis Carroll    11
+Rebelión en la granja    George Orwell    13
+Los pilares de la tierra    Ken Follett    6
+Guerra y paz    León Tolstói    7
+Memorias de una geisha    Arthur Golden    12
+Frankenstein    Mary W. Shelley    10
+Los viajes de Gulliver    Jonathan Swift    2
+La ladrona de libros    Markus Zusak    6
+Matar a un ruiseñor    Harper Lee    3
+El conde de Montecristo    Alejandro Dumas    13
+Los juegos del hambre    Suzanne Collins    2
+Harry Potter y la piedra filosofal (Harry Potter 1)    J. K. Rowling    10
+El señor de las moscas    William Golding    1
+Moby Dick    Herman Melville    8
+Los miserables    Victor Hugo    2
+Las aventuras de Huckleberry Finn    Mark Twain    10
+Tristam Shandy    Laurence Sterne    9
+Drácula    Bram Stoker    14
+El nombre de la rosa    Umberto Eco    2
+El extranjero    Albert Camus    4
+Los hermanos Karamázov    Fiódor Dostoyevski    2
+El amor en los tiempos del cólera    Gabriel García Márquez    3
+Harry Potter y las reliquias de la muerte (Harry Potter 7)    J. K. Rowling    11
+El código Da Vinci    Dan Brown    10
+Harry Potter y el prisionero de Azkaban (Harry Potter 3)    J. K. Rowling    8
+Cometas en el cielo    Khaled Hosseini    11
+Ensayo sobre la ceguera    José Saramago    3
+Las crónicas de Narnia    C. S. Lewis    4
+Los renglones torcidos de Dios    Torcuato Luca de Tena    11
+En llamas    Suzanne Collins    2
+Harry Potter y el cáliz de fuego (Harry Potter 4)    J. K. Rowling    1
+La sombra del viento    Carlos Ruiz Zafón    8
+Viaje al fin de la noche    Louis Ferdinand Céline    3
+Harry Potter y el misterio del príncipe (Harry Potter 6)    J. K. Rowling    12
+El juego de Ender    Orson Scott Card    7
+La Biblia    Desconocido    2
+La montaña mágica    Thomas Mann    4
+Harry Potter y la Orden del Fénix (Harry Potter 5)    J. K. Rowling    5
+El psicoanalista    John Katzenbach    6
+Trampa 22    Joseph Heller    13
+Por quién doblan las campanas    Ernest Hemingway    2
+Dr. Jekyll y Mr. Hyde    Robert Louis Stevenson    12
+El médico    Noah Gordon    4
+La metamorfosis    Franz Kafka    6
+La telaraña de Carlota    E.B. White    2
+La divina comedia    Dante Alighieri    7
+La señora Dalloway    Virginia Woolf    1
+Crepúsculo    Stephenie Meyer    6
+En el camino    Jack Kerouac    8
+La Iliada    Homero    4
+Jane Eyre    Charlotte Brontë    2
+Diario    Ana Frank    6
+El retorno del Rey    J. R. R. Tolkien    7
+El perfume    Patrick Süskind    11
+Fahrenheit 451    Ray Bradbury    1
+Crónica de una muerte anunciada    Gabriel García Márquez    9
+La casa de los espíritus    Isabel Allende    14
+Mientras agonizo    William Faulkner    7
+La isla del tesoro    Robert Louis Stevenson    14
+Todo se desmorona    Chinua Achebe    1
+Emma    Jane Austen    8
+Pasaje a la India    E. M. Forster    7
+Ficciones    Jorge Luis Borges    1
+Harry Potter y la cámara secreta (Harry Potter 2)    J. K. Rowling    7
+A sangre fría    Truman Capote    6
+Rimas y leyendas    Gustavo Adolfo Bécquer    3
+El corazón es un cazador solitario    Carson McCullers    1
+El Rey Lear    William Shakespeare    13
+Tormenta de espadas    George R. R. Martin    9
+Juego de tronos    George R. R. Martin    2
+La catedral del mar    Ildefonso Falcones    8
+Progreso del peregrino    John Bunyan    12
+El corazón de las tinieblas    Joseph Conrad    2
+Robinson Crusoe    Daniel Defoe    2
+La isla de los amores infinitos    Daína Chaviano    13
+David Copperfield    Charles Dickens    3
