@@ -106,7 +106,7 @@ def screen0():  #Sing in
     password_entry.place(relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
 
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=compr_user)
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: compr_contra(compr_user()))
     boton_aceptar.place(relx=0.45, rely=0.38, relwidth=0.25, relheight=0.05)
 
     # Mensaje y botón de REGÍSTRATE
@@ -140,10 +140,12 @@ def screen1():  #Sing up
     
     #Premium ¿?
     label_premium = tk.Label(ventana, text="Premium por 4,99€/mes?")
-    check1_premium = tk.Checkbutton(ventana, text="Si", command=lambda: checkbutton_no_iguales(1))
-    check1.estado = check1_premium
-    check2_premium = tk.Checkbutton(ventana, text="No", command=lambda: checkbutton_no_iguales(2))
-    check2.estado = check2_premium
+    var_ch1 = tk.IntVar()
+    var_ch2 = tk.IntVar()
+    check1_premium = tk.Checkbutton(ventana, text="Si", variable=var_ch1, command=lambda: checkbutton_no_iguales(1))
+    check2_premium = tk.Checkbutton(ventana, text="No", variable=var_ch2, command=lambda: checkbutton_no_iguales(2))
+    check1.estado = var_ch1
+    check2.estado = var_ch2
     label_ventajas = tk.Label(ventana, text="Disfrutarás de los beneficios premium como tener más cantidad de libros prestados al\nmismo tiempo y poder pedir prestados todos los libros que tengas disponibles a la vez")
     
     label_premium.place( relx=0.20, rely=0.37, relwidth=0.25, relheight=0.03)
@@ -152,7 +154,7 @@ def screen1():  #Sing up
     label_ventajas.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
     
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=compr_user)
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command=compr_checks)
     boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
     #Mandamos los valores a class: user
@@ -187,30 +189,41 @@ users_list = leer_arch("Datos/base_datos.txt")
 stock_list = leer_arch("Datos/stock_libros.txt")
 
 #Funciones
-def checkbutton_no_iguales(utlimo):
-    c1 = check1.estado
-    c2 = check2.estado
-
-
-
+def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar los dos checks a la vez
+    c1 = check1.estado.get()
+    c2 = check2.estado.get()
+    if c1 == c2:
+        if ultimo == 1: #El ultimo check en activarse fue el 1
+            check2.estado.set(0)
+        elif ultimo == 2: #El ultimo check en activarse fue el 2
+            check1.estado.set(0)
 
 def compr_user():    #Comprueba si los datos introducidos concuerdan con la base de datos
     #Comprobamos si el usuario existe
     name = usuario.nombre.get()
-    for elemento in users_list:
-        name_aux = elemento.nombre
-        if name_aux == name:
-            #El nombre está en la lista
-            messagebox.showinfo("Econtrado usuario", f"Se ha encontrado el nombre de usuario {name}")
-            encontrado = True
+    for i, elemento in enumerate(users_list):
+        if elemento.nombre == name:
+            encontrado = True   #El nombre está en la lista
             break
         encontrado = False
-    if encontrado != True: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario {name}")
+    return [encontrado,i]
         
-    
-    
+def compr_contra(lista):
+    if lista[0] == False: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")    #lista[0] == encontrado
+    elif lista[0] == True:    #Buscamos si la contraseña coincide
+        contra = usuario.password.get()
+        if contra == users_list[lista[1]].clave:    #lista[1] == i
+            messagebox.showinfo("Login", "Login efectuado correctamente")
+            change_screen(2)
+        else: messagebox.showerror("Password error", "Contraseña incorrecta")
 
-
+def compr_checks():
+    c1 = check1.estado.get()
+    c2 = check2.estado.get()
+    #Si al menos uno está activo..
+    if c1 == 1 or c2:
+        return True
+    else: return False
 
 
 #Creamos el perfil del usuario vacio y los checkbuttons vacios
@@ -218,8 +231,6 @@ usuario = user()
 check1 = checkbutton()
 check2 = checkbutton()
 
-#Iniciamos la primera pantalla
-change_screen(0)
-
 #Lanzamos la interfaz
+change_screen(0)
 ventana.mainloop()

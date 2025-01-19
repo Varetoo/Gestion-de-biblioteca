@@ -1,27 +1,5 @@
-class user:
-    def __init__(self, nombre, contra, edad = None):
-        self.__nombre = nombre
-        self.contra = contra
-        self.edad = edad
-    
-    @property
-    def nombre(self):
-        return self.__nombre
-    
-    @nombre.setter
-    def nombre(self, cadena):
-        self.__nombre = cadena
+c1 = 1
+c2 = 1
 
-
-print("HOLA")
-usuario = user("Paco", "adowiha")
-
-
-print(f"nombre: {usuario.nombre}, contraseña: {usuario.contra}, edad:{usuario.edad}")
-
-
-usuario.nombre = "hola"
-
-
-
-print(f"nombre: {usuario.nombre}, contraseña: {usuario.contra}, edad:{usuario.edad}")
+if c1 or c2 : print("GOD")
+else: print("NO GOD")
