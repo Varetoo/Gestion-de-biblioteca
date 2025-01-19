@@ -11,8 +11,9 @@ class dato:    #Datos STOCK
         self.state = state
 
 class user:
-    def __init__(self, nombre, premium, prestamos_activos, prestamos_restantes):
+    def __init__(self, nombre = None, password = None, premium = None, prestamos_activos = None, prestamos_restantes = None):
         self.__nombre = nombre
+        self.__password = password
         self.premium = premium
         self.__prestamos_activos = prestamos_activos
         self.prestamos_restantes = prestamos_restantes
@@ -22,12 +23,20 @@ class user:
         return self.__nombre
     
     @property
+    def password(self):
+        return self.__password
+    
+    @property
     def prestamos_activos(self):
         return self.__prestamos_activos
     
     @nombre.setter
     def nombre(self, cadena):
         self.__nombre = cadena
+        
+    @password.setter
+    def password(self, cadena):
+        self.__password = cadena
         
     @prestamos_activos.setter
     def prestamos_activos(self, cadena):
@@ -53,69 +62,101 @@ def leer_arch(nombre_archivo):
 #==================== INTERFAZ ====================
 #Confiugración inicial de la ventana
 ventana = tk.Tk()
-ventana.geometry("900x500")
+ventana.geometry("600x400")
 
-
-
-
-#==================== CODIGO ====================
-#Funciones
-def funcion_prueba():
-    pass
-
-def change_screen(id):  #funcion que se encarga de cambiar de pantalla la interfaz
+def change_screen(id = 0):  #Funcion que se encarga de cambiar de pantalla la interfaz
     #Eliminamos el contenido de la pantalla anterior
     for widget in ventana.winfo_children():
         widget.destroy()
+    
     #Compone la pantalla actual. Lista de ids: "sing in: 0, sing up: -1, main: 1, solicitar libro: 2, devoluciones: 3"
     if id == 0: #SING IN
-        #Titulo ventana
+        #Title
         ventana.title("Sing in")
-        #Titulo label
-        tk.Label(ventana, text="Gestion de biblioteca", font=("", 24, "underline")).place(relx=0.020,rely=0.05,relwidth=0.4,relheight=0.07)
-        #Usuario: []
-        tk.Label(ventana, text="Usuario:").place(relx=0.05,rely=0.15,relwidth=0.1,relheight=0.02)
-        user = tk.Entry(ventana)
-        user.place(relx=0.13,rely=0.145,relwidth=0.1,relheight=0.03)
-        #Contraseña: []
-        tk.Label(ventana, text="Contraseña:").place(relx=0.05,rely=0.25,relwidth=0.1,relheight=0.02)
-        pssw = tk.Entry(ventana)
-        pssw.place(relx=0.1,rely=0.3,relwidth=0.1,relheight=0.1)
-        #Boton ACEPTAR
-        tk.Button(ventana, text="Aceptar", command=funcion_prueba).place(relx=0.1,rely=0.4,relwidth=0.1,relheight=0.1)
-        #Boton REGISTRATE
-        tk.Label(ventana, text="No tienes cuenta?").place(relx=0.1,rely=0.5,relwidth=0.1,relheight=0.1)
-        tk.Button(ventana, text="Registrate", command=lambda: change_screen(-1)).place(relx=0.1,rely=0.5,relwidth=0.1,relheight=0.1)
-    
+        # Título de la ventana
+        titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24, "underline"))
+        titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+
+        # Usuario
+        label_usuario = tk.Label(ventana, text="Usuario:")
+        user_entry = tk.Entry(ventana)
+        label_usuario.place(relx=0.25, rely=0.23, relwidth=0.2, relheight=0.03)
+        user_entry.place(relx=0.45, rely=0.23, relwidth=0.25, relheight=0.05)
+
+        # Contraseña
+        label_password = tk.Label(ventana, text="Contraseña:")
+        password_entry = tk.Entry(ventana, show="*")
+        label_password.place(relx=0.25, rely=0.3, relwidth=0.2, relheight=0.05)
+        password_entry.place(relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
+
+        # Botón ACEPTAR
+        boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: change_screen(1))
+        boton_aceptar.place(relx=0.45, rely=0.38, relwidth=0.25, relheight=0.05)
+
+        # Mensaje y botón de REGÍSTRATE
+        mensaje_registro = tk.Label(ventana, text="¿No tienes cuenta?")
+        boton_registro = tk.Button(ventana, text="Regístrate", command=lambda: change_screen(-1))
+        mensaje_registro.place(relx=0.25, rely=0.6, relwidth=0.2, relheight=0.05)
+        boton_registro.place(relx=0.45, rely=0.6, relwidth=0.25, relheight=0.05)
+
+        usuario = user(user_entry, password_entry, None, None, )
     
     elif id == -1:    #SING UP
-        #Titulo ventana
+        #Title
         ventana.title("Sing up")
-        #Titulo label
-        tk.Label(ventana, text="Gestion de biblioteca", font=("", 24, "underline"), ).grid(row=0, column=0, padx=20, pady=20, columnspan=5)
-        #Usuario: []
-        tk.Label(ventana, text="Usuario:").grid(row=1, column=0, padx=0, pady=0)
-        user = tk.Entry(ventana)
-        user.grid(row=1, column=0, padx=30, pady=0, columnspan=100)
-        #Contraseña: []
-        tk.Label(ventana, text="Contraseña:").grid(row=2, column=0, padx=0, pady=10)
-        pssw = tk.Entry(ventana)
-        pssw.grid(row=2, column=0, padx=30, pady=10, columnspan=100)
+        # Título de la ventana
+        titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24, "underline"))
+        titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+        
+        # Usuario
+        label_usuario = tk.Label(ventana, text="Usuario:")
+        user_entry = tk.Entry(ventana)
+        label_usuario.place(relx=0.25, rely=0.23, relwidth=0.2, relheight=0.03)
+        user_entry.place(relx=0.45, rely=0.23, relwidth=0.25, relheight=0.05)
+        
+        # Contraseña
+        label_password = tk.Label(ventana, text="Contraseña:")
+        password_entry = tk.Entry(ventana, show="*")
+        label_password.place(relx=0.25, rely=0.3, relwidth=0.2, relheight=0.05)
+        password_entry.place(relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
+        
         #Premium ¿?
-        tk.Label(ventana, text="Premium por 4,99€/mes?").grid(row=3, column=0, padx=10, pady=10)
-        texto = "Disfrutarás de los beneficios premium como tener más cantidad de libros prestados al mismo tiempo\n y poder pedir prestados todos los libros que tengas disponibles a la vez"
-        tk.Label(ventana, text=texto).grid(row=4, column=0, padx=10, pady=10, columnspan=100)
-        #Boton ACEPTAR
-        tk.Button(ventana, text="Aceptar", command=funcion_prueba).grid(row=5, column=1, padx=0, pady=10, columnspan=1)
+        label_premium = tk.Label(ventana, text="Premium por 4,99€/mes?")
+        check1_premium = tk.Checkbutton(ventana, text="Si")
+        check2_premium = tk.Checkbutton(ventana, text="No")
+        label_ventajas = tk.Label(ventana, text="Disfrutarás de los beneficios premium como tener más cantidad de libros prestados al\nmismo tiempo y poder pedir prestados todos los libros que tengas disponibles a la vez")
         
+        label_premium.place( relx=0.20, rely=0.37, relwidth=0.25, relheight=0.03)
+        check1_premium.place(relx=0.50, rely=0.37, relwidth=0.06, relheight=0.03)
+        check2_premium.place(relx=0.60, rely=0.37, relwidth=0.06, relheight=0.03)
+        label_ventajas.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
+        
+        # Botón ACEPTAR
+        boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: change_screen(1))
+        boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
-    # elif id == 1:     #MAIN
-        
+    
+    elif id == 1:     #MAIN
+        #Title
+        ventana.title("Main")
+        # Título de la ventana
+        titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24))
+        titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+    
     
     # elif id == 2:     #SOLICITAR LIBRO
         
     
     # elif id == 3:     #DEVOLICIONES
+
+
+
+#==================== CODIGO ====================
+#Funciones
+def compr_user():    #Comprueba si los datos introducidos concuerdan con la base de datos
+    user = password_entry.get()
+    pssw = 
+
         
     
     
@@ -128,7 +169,6 @@ stock_datos = leer_arch("Datos/stock_libros.txt")
 
 #Iniciamos la primera pantalla
 change_screen(0)
-
 
 #Lanzamos la interfaz
 ventana.mainloop()
