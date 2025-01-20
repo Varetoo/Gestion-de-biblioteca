@@ -1,30 +1,53 @@
-import tkinter as tk
+from tkinter import messagebox
 
-# Crear la ventana principal
-ventana = tk.Tk()
-ventana.geometry("300x200")
+class dato:    #Datos STOCK
+    def __init__(self, nombre, clave, state):
+        self.nombre = nombre
+        self.clave = clave
+        self.state = state
 
-def eliminar_label():
-    global label
-    if label:  # Verificar si el widget existe
-        #Cambiamos el label
-        label = tk.Label(ventana, text="¡Hola, soy un Label cambiado!")
-        label.pack(pady=20)  # Eliminar el widget
-
-def main():
+class user:
+    def __init__(self, nombre = None, password = None, premium = None, prestamos_activos = None, prestamos_restantes = None, seguridad_contra = None):
+        self.__nombre = nombre
+        self.__password = password
+        self.premium = premium
+        self.__prestamos_activos = prestamos_activos
+        self.prestamos_restantes = prestamos_restantes
+        self.seguridad_contra = seguridad_contra
     
-
-    # Crear un Label (widget)
-    global label
-    label = tk.Label(ventana, text="¡Hola, soy un Label!")
-    label.pack(pady=20)
+    @property
+    def nombre(self):
+        return self.__nombre
     
+    @property
+    def password(self):
+        return self.__password
     
+    @property
+    def prestamos_activos(self):
+        return self.__prestamos_activos
+    
+    @nombre.setter
+    def nombre(self, cadena):
+        self.__nombre = cadena
+        
+    @password.setter
+    def password(self, cadena):
+        self.__password = cadena
+        
+    @prestamos_activos.setter
+    def prestamos_activos(self, cadena):
+        self.__prestamos_activos = cadena
 
-    # Crear un botón para eliminar el Label
-    boton = tk.Button(ventana, text="Eliminar Label", command=eliminar_label)
-    boton.pack()
+usuario = user("warrel", "aoih123@#21", 1)
 
-    ventana.mainloop()
+def add_arch(nombre_archivo):
+    try:
+        with open(nombre_archivo, "a", encoding="utf-8") as base_datos:
+            base_datos.write(f"\n{usuario.nombre}    {usuario.password}    {usuario.premium}")
+        
+        
+    except(FileExistsError,FileNotFoundError):
+        messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
 
-main()
+add_arch("Datos/base_datos.txt")

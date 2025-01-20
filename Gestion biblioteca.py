@@ -11,12 +11,13 @@ class dato:    #Datos STOCK
         self.state = state
 
 class user:
-    def __init__(self, nombre = None, password = None, premium = None, prestamos_activos = None, prestamos_restantes = None):
+    def __init__(self, nombre = None, password = None, premium = None, prestamos_activos = None, prestamos_restantes = None, seguridad_contra = None):
         self.__nombre = nombre
         self.__password = password
         self.premium = premium
         self.__prestamos_activos = prestamos_activos
         self.prestamos_restantes = prestamos_restantes
+        self.seguridad_contra = seguridad_contra
     
     @property
     def nombre(self):
@@ -64,6 +65,14 @@ def leer_arch(nombre_archivo):
                 lista.append(dato(linea[0], linea[1], linea[2]))
         return lista
         
+
+    except(FileExistsError,FileNotFoundError):
+        messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
+
+def add_arch(nombre_archivo):
+    try:
+        with open(nombre_archivo, "a", encoding="utf-8") as base_datos:
+            base_datos.write(f"\n{usuario.nombre}    {usuario.password}    {usuario.premium}")
 
     except(FileExistsError,FileNotFoundError):
         messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
@@ -160,7 +169,7 @@ def screen1():  #Sing up
     ventajas_label.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
     
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: completar_registro(compr_registro()))
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command=compr_registro)
     boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
     #Mandamos los valores a class: user
@@ -190,9 +199,6 @@ def screen4():  #Devoluciones
 
 
 #==================== CODIGO ====================
-#Leemos los arcihvos y almacenamos los datos
-users_list = leer_arch("Datos/base_datos.txt")
-stock_list = leer_arch("Datos/stock_libros.txt")
 
 #Funciones
 def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar los dos checks a la vez
@@ -282,34 +288,56 @@ def seguridad_pssw(*args):
     global seguridad_label
     if seguridad_label: #Comprobamos si existe 'seguridad_label'
         seguridad_label.destroy()
-    
+    #Mostramos la nueva informacion de seguridad de contraseña
     seguridad_label = tk.Label(ventana, text=cadena, fg="red")
     seguridad_label.place(relx=0.72, rely=0.3, relwidth=0.22, relheight=0.05)
+    #Almacenamos si la contraseña es apta o no True/False en la instancia usuario
+    if cadena == "Contraseña segura" or cadena == "Contraseña muy segura":
+        usuario.seguridad_contra = True
+    else: usuario.seguridad_contra = False
 
-def compr_registro():  #Comprueba si hay al menos un check marcado return: True/False
+def completar_registro():
+    #Completamos los datos antes de enviarlos para que tengan un formato correcto
+    usuario.nombre = usuario.nombre.get()
+    usuario.password = usuario.password.get()
+    #Enviamos los nuevos datos al archivo de datos
+    add_arch("Datos/base_datos.txt")
+    #Releemos los datos para que consten los nuevos datos en el login
+    global users_list
+    users_list = leer_arch("Datos/base_datos.txt")
+    #Cambiamos a la pantalla de login
+    messagebox.showinfo(message="Registro completado correctamente")
+    change_screen(0)
+
+def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
     #Comprobamos si al menos un check fue puslado..
     c1 = check1.estado.get()
     c2 = check2.estado.get()
-    if c1 == 1 or c2:
+    if c1 == 1 or c2 == 1:
         #Comprobamos si los campos están completos
-        if not usuario.nombre == None or usuario.password == None:
+        nombre = usuario.nombre.get()
+        contraseña = usuario.password.get()
+        if not (nombre == "" or contraseña == ""):
             #Comprobamos que el nombre de usuario no exista
-            if compr_user() == False:
+            encontrado = compr_user()   #compr_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
+            if encontrado[0] == False:
                 #Comprobamos si la contraseña es segura
-                pass
+                if usuario.seguridad_contra == True:
+                    #Almacenamos el valor del checkbox marcado
+                    if c1 == 1: usuario.premium = 1
+                    else: usuario.premium = 0
+                    #Completamos el registro
+                    completar_registro()
                 
+                
+                else: messagebox.showerror("Security error", "La contraseña es demasiado débil, el registro no se puede completar.")
+            else: messagebox.showerror("User already exists error", "El nombre de usuario ya existe, prueba con otro.")
+        else: messagebox.showerror("User/password empty error", "Falta algún campo por rellenar, el registro no se puede completar.")
+    else: messagebox.showerror("Checkbox error", "Falta algún campo por rellenar, el registro no se puede completar.")
 
-    else: return False
-
-def completar_registro(checks):
-    if checks == True:  
-        #Comprobamos si al menos un check fue puslado..
-        #Comprobamos si los campos están completos
-        #Comprobamos que el nombre de usuario no exista
-        #Comprobamos si la contraseña es segura
-        pass
-
-
+#Leemos los arcihvos y almacenamos los datos
+users_list = leer_arch("Datos/base_datos.txt")
+stock_list = leer_arch("Datos/stock_libros.txt")
 
 #Creamos el perfil del usuario vacio, los checkbuttons vacios
 usuario = user()
