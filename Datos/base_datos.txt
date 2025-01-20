@@ -1,3 +1,5 @@
+a    a    1
+b    b    0
 juanperez    1234abcd    1
 mariarodriguez    miContraseña01    0
 alexmartinez    abc12345    1
