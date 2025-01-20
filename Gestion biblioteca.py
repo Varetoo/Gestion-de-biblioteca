@@ -97,15 +97,18 @@ def add_arch(nombre_archivo):
 
 
 #============================== INTERFAZ ==============================
-#Confiugración inicial de la ventana
+# Confiugración inicial de la ventana
 ventana = tk.Tk()
 ventana.geometry("600x400")
 ventana.resizable(False, False)  # No permite cambiar tamaño de la ventana
 
+# Funcion principal
 def change_screen(id = 0):  #Funcion que se encarga de eliminar el contenido que hay en la pantalla actual y luego llama a la funcion correspondiente al id dado
     #Eliminamos el contenido de la pantalla anterior
     for widget in ventana.winfo_children():
         widget.destroy()
+    
+    
     
     if   id == 0: screen0()   #SING IN 
     elif id == 1: screen1()   #SING UP
@@ -113,12 +116,36 @@ def change_screen(id = 0):  #Funcion que se encarga de eliminar el contenido que
     elif id == 3: screen3()   #SOLICITAR LIBRO
     elif id == 4: screen4()   #DEVOLICIONES
 
-def screen0():  #Sing in
-    #Title
-    ventana.title("Sing in")
+# Funciones extra
+
+def titulo(name="tittle sin modificar"):
+    #Tittle
+    ventana.title(name)
     # Título de la ventana
     titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24, "underline"))
     titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+
+def label_inicio():
+    # Usuario
+    usuario_label = tk.Label(ventana, text=usuario.nombre, bg="red")
+    usuario_label.place(relx=0.25, rely=0.23)
+    # Premium
+    if usuario.premium == True:
+        premium_label = tk.Label(ventana, text="*Premium*", bg="red")
+        premium_label.place(relx=0.55, rely=0.23)
+
+def devoluciones_disponibles():
+    checkbuttons_lista = []
+    for i, titulo in enumerate(usuario.prestamos_activos):
+        libro_label = tk.Label(ventana, text=titulo)
+        libro_label.place(relx=0.25, rely=0.30+0.07)
+        # Checkbuttons
+        checkbuttons_lista.append(checkbutton())
+
+# Screens
+def screen0():  #Sing in
+    # Título de la ventana
+    titulo("Sing in")
 
     # Usuario
     label_user = tk.Label(ventana, text="Usuario:")
@@ -133,7 +160,7 @@ def screen0():  #Sing in
     password_entry.place(relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
 
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: compr_contra(compr_user(consolidar_credenciales_usuario())))
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: comprobar_contra(comprobar_user(consolidar_credenciales_usuario())))
     boton_aceptar.place(relx=0.45, rely=0.38, relwidth=0.25, relheight=0.05)
 
     # Mensaje y botón de REGÍSTRATE
@@ -147,11 +174,8 @@ def screen0():  #Sing in
     usuario.password = password_entry
 
 def screen1():  #Sing up
-    #Title
-    ventana.title("Sing up")
     # Título de la ventana
-    titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24, "underline"))
-    titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+    titulo("Sing up")
     
     # Usuario
     user_label = tk.Label(ventana, text="Usuario:")
@@ -186,7 +210,7 @@ def screen1():  #Sing up
     ventajas_label.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
     
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command= lambda: compr_registro(consolidar_credenciales_usuario))
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command= lambda: comprobar_registro(consolidar_credenciales_usuario))
     boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
     #Mandamos los valores a class: user
@@ -194,25 +218,16 @@ def screen1():  #Sing up
     usuario.password = password_entry
 
 def screen2():  #Main
-    #Title
-    ventana.title("Main")
     # Título de la ventana
-    titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24))
-    titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
-    # Usuario
-    usuario_label = tk.Label(ventana, text=usuario.nombre, bg="red")
-    usuario_label.place(relx=0.25, rely=0.23)
-    # Premium
-    if usuario.premium == True:
-        premium_label = tk.Label(ventana, text="*Premium*", bg="red")
-        premium_label.place(relx=0.55, rely=0.23)
+    titulo("Main")
+    #Usuario y premium
+    label_inicio()
     # Libros en posesion
-    libros_label = tk.Label(ventana, text=f"Libros en posesión: {usuario.prestamos_activos}", bg="red")
+    libros_label = tk.Label(ventana, text=f"Libros en posesión: {len(usuario.prestamos_activos)}", bg="red")
     libros_label.place(relx=0.25, rely=0.30)
     #Prestamos restantes
     prestamos_label = tk.Label(ventana, text=f"Prestamos restantes: {usuario.prestamos_restantes}", bg="red")
     prestamos_label.place(relx=0.25, rely=0.37)
-    
     # Boton VER
     ver_button = tk.Button(ventana, text="Ver", command=pulsado_ver_button)
     ver_button.place(relx=0.55, rely=0.30)
@@ -224,19 +239,20 @@ def screen2():  #Main
     pedir_prestado_button.place(relx=0.55, rely=0.37, relwidth=0.21)
 
 def screen3():  #Solicitar libro
-    #Title
-    ventana.title("Main")
     # Título de la ventana
-    titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24))
-    titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+    titulo("Solicitar libro")
+    #Usuario y premium
+    label_inicio()
 
 def screen4():  #Devoluciones
-    #Title
-    ventana.title("Main")
     # Título de la ventana
-    titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24))
-    titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
-
+    titulo("Devoluciones")
+    #Usuario y premium
+    label_inicio()
+    #Label informacion extra
+    info_label = tk.Label(ventana, text="Seleccione el libro que desea devolver")
+    info_label.place(relx=0.25, rely=0.30)
+    # Muestra los libros disponibles para devolucion con checkbuttons
 
 #============================== CODIGO ==============================
 #Login y registro
@@ -249,31 +265,31 @@ def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar 
         elif ultimo == 2: #El ultimo check en activarse fue el 2
             check1.estado.set(0)
 
-def compr_user(lista_para_comprobar):    #Comprueba si el usuario exist en la base de datos
-    #Comprobamos si el usuario existe
+def comprobar_user(lista_para_comprobarobar):    #comprobarueba si el usuario existe en la base de datos
+    #comprobarobamos si el usuario existe
     name = usuario.nombre
-    for i, elemento in enumerate(lista_para_comprobar):
+    for i, elemento in enumerate(lista_para_comprobarobar):
         if elemento.nombre.lower() == name.lower():
             encontrado = True   #El nombre está en la lista
             break
         encontrado = False
     return [encontrado,i]
 
-def compr_prestamos():
-    #Comprobamos si el usuario se encuentra en la lista de prestamos activos
-    lista = compr_user(prestamos_list)
+def comprobar_prestamos():  # Rellena la informacion usuario.prestamos_activos y usuario.prestamos_restantes
+    #comprobarobamos si el usuario se encuentra en la lista de prestamos activos
+    lista = comprobar_user(prestamos_list)
     encontrado, i = lista[0], lista[1]
-    # la cantidad de prestamos disponibles para los usuarios premium son 6 y para los no premium son 3
+    # Prestamos activos predeterminados
+    usuario.prestamos_activos = []
+    if encontrado == True:  # Si el usuario se encuentra en la lista con prestamos
+        usuario.prestamos_activos = prestamos_list[i].clave # Almacenamos en usuario.prestamos_activos el array con todos los titulos
+    # La cantidad de prestamos disponibles para los usuarios premium son 6 y para los no premium son 3
     cantidad_predeterminada = 3
     if usuario.premium == True:
         cantidad_predeterminada += 3
-    # Prestamos activos predeterminados
-    usuario.prestamos_activos = 0
-    if encontrado == True:
-        usuario.prestamos_activos = len(prestamos_list[i].clave)
-    usuario.prestamos_restantes = cantidad_predeterminada-usuario.prestamos_activos
-    
-def compr_contra(lista):    #Muestra por pantalla si el usuario existe y COMPLETA EL LOGIN si la contraseña coincide.   lista -> [encontrado, i] de la funcion compr_user
+    usuario.prestamos_restantes = cantidad_predeterminada-len(usuario.prestamos_activos)
+
+def comprobar_contra(lista):    #Muestra por pantalla si el usuario existe y COMPLETA EL LOGIN si la contraseña coincide.   lista -> [encontrado, i] de la funcion comprobar_user
     encontrado = lista[0]
     i = lista[1]
     if encontrado == False: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")
@@ -283,7 +299,7 @@ def compr_contra(lista):    #Muestra por pantalla si el usuario existe y COMPLET
             messagebox.showinfo("Login", "Login efectuado correctamente")
             #Completamos los datos antes de cambiar de pantalla para que tengan un formato correcto y no perderlos
             usuario.premium = int(users_list[i].state)
-            compr_prestamos()
+            comprobar_prestamos()
             change_screen(2)
         else: messagebox.showerror("Password error", "Contraseña incorrecta")
 
@@ -344,7 +360,7 @@ def seguridad_pssw(*args):   #Introduce True/False en usuario.seguridad_contra s
     cadena += puntuacion(usuario.password.get())
     #Eliminamos la información vieja de la pantalla y recargamos la nueva información
     global seguridad_label
-    if seguridad_label: #Comprobamos si existe 'seguridad_label'
+    if seguridad_label: #comprobarobamos si existe 'seguridad_label'
         seguridad_label.destroy()
     #Mostramos la nueva informacion de seguridad de contraseña
     seguridad_label = tk.Label(ventana, text=cadena, fg="red")
@@ -372,17 +388,17 @@ def completar_registro():   #Añade los nuevos datos a la base de datos y vuelve
     messagebox.showinfo(message="Registro completado correctamente")
     change_screen(0)
 
-def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
+def comprobar_registro():  #comprobarueba si el registro se puede efectuar correctamente
     c1 = check1.estado.get()
     c2 = check2.estado.get()
-    #Comprobamos si al menos un check fue puslado..
+    #comprobarobamos si al menos un check fue puslado..
     if c1 == 1 or c2 == 1:
-        #Comprobamos si los campos están completos
+        #comprobarobamos si los campos están completos
         if not (usuario.nombre == "" or usuario.contraseña == ""):
-            #Comprobamos que el nombre de usuario no exista
-            encontrado = compr_user(users_list)   #compr_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
+            #comprobarobamos que el nombre de usuario no exista
+            encontrado = comprobar_user(users_list)   #comprobar_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
             if encontrado[0] == False:
-                #Comprobamos si la contraseña es segura
+                #comprobarobamos si la contraseña es segura
                 if usuario.seguridad_contra == True:
                     #Almacenamos el valor del checkbox marcado
                     if c1 == 1: usuario.premium = 1
@@ -400,22 +416,30 @@ def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
 
 #Pagina principal
 def pulsado_ver_button():
-    if usuario.prestamos_activos > 0:
-        lista = compr_user(prestamos_list)
+    if len(usuario.prestamos_activos) > 0:
+        lista = comprobar_user(prestamos_list)
         indice = lista[1]
         lista = prestamos_list[indice].clave
         texto = ""
         for titulo in lista:
             texto += titulo + "\n"
     else:
-        texto = "No hay libros prestados actualmente"
+        texto = "No tienes prestamos activos"
     messagebox.showinfo("Libros prestados", texto)
 
-def pulsado_devolver_button():
-    pass
-
 def pulsado_pedir_button():
-    pass
+    if usuario.prestamos_restantes == 0:
+        messagebox.showinfo("Pedir prestado", "No puedes pedir mas libros, devuelve alguno para poder continuar")
+    else:
+        change_screen(3)
+
+def pulsado_devolver_button():
+    if len(usuario.prestamos_activos) == 0:
+        messagebox.showinfo("Devolver libro", "No tienes prestamos activos")
+    else:
+        change_screen(4)
+
+
 
 
 #MAIN CODE

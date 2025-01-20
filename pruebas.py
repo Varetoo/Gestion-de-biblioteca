@@ -1,4 +1,5 @@
 cadena = []
+print(len(cadena))
 try:
     with open("Datos/stock_libros.txt", "r", encoding="utf-8") as archivo:
         for i, linea in enumerate(archivo):

@@ -1,100 +1,100 @@
-Cien años de soledad    Gabriel García Márquez    7    1
-El señor de los anillos (Trilogía)    J. R. R. Tolkien    10    2
-1984    George Orwell    11    3
-Un mundo feliz    Aldous Huxley    4    4
-Orgullo y prejuicio    Jane Austen    13    5
-Crimen y castigo    Fiódor Dostoyevski    5    6
-Lolita    Vladimir Nabokov    13    7
-Ulises    James Joyce    6    8
-Madame Bovary    Gustave Flaubert    7    9
-En busca del tiempo perdido    Marcel Proust    3    10
-Don Quijote de la Mancha    Miguel de Cervantes    12    11
-El retrato de Dorian Gray    Oscar Wilde    9    12
-Ana Karenina    León Tolstói    10    13
-El Principito    Antoine de Saint-Exupéry    9    14
-El proceso    Franz Kafka    10    15
-El ruido y la furia    William Faulkner    4    16
-Hamlet    William Shakespeare    9    17
-Lo que el viento se llevó    Margaret Mitchell    3    18
-La Odisea    Homero    12    19
-Las uvas de la ira    John Steinbeck    14    20
-El guardián entre el centeno    J. D. Salinger    3    21
-Cumbres borrascosas    Emily Brontë    3    22
-El gran Gatsby    F. Scott Fitzgerald    14    23
-Mil soles espléndidos    Khaled Hosseini    3    24
-Alicia en el país de las maravillas    Lewis Carroll    11    25
-Rebelión en la granja    George Orwell    13    26
-Los pilares de la tierra    Ken Follett    6    27
-Guerra y paz    León Tolstói    7    28
-Memorias de una geisha    Arthur Golden    12    29
-Frankenstein    Mary W. Shelley    10    30
-Los viajes de Gulliver    Jonathan Swift    2    31
-La ladrona de libros    Markus Zusak    6    32
-Matar a un ruiseñor    Harper Lee    3    33
-El conde de Montecristo    Alejandro Dumas    13    34
-Los juegos del hambre    Suzanne Collins    2    35
-Harry Potter y la piedra filosofal (Harry Potter 1)    J. K. Rowling    10    36
-El señor de las moscas    William Golding    1    37
-Moby Dick    Herman Melville    8    38
-Los miserables    Victor Hugo    2    39
-Las aventuras de Huckleberry Finn    Mark Twain    10    40
-Tristam Shandy    Laurence Sterne    9    41
-Drácula    Bram Stoker    14    42
-El nombre de la rosa    Umberto Eco    2    43
-El extranjero    Albert Camus    4    44
-Los hermanos Karamázov    Fiódor Dostoyevski    2    45
-El amor en los tiempos del cólera    Gabriel García Márquez    3    46
-Harry Potter y las reliquias de la muerte (Harry Potter 7)    J. K. Rowling    11    47
-El código Da Vinci    Dan Brown    10    48
-Harry Potter y el prisionero de Azkaban (Harry Potter 3)    J. K. Rowling    8    49
-Cometas en el cielo    Khaled Hosseini    11    50
-Ensayo sobre la ceguera    José Saramago    3    51
-Las crónicas de Narnia    C. S. Lewis    4    52
-Los renglones torcidos de Dios    Torcuato Luca de Tena    11    53
-En llamas    Suzanne Collins    2    54
-Harry Potter y el cáliz de fuego (Harry Potter 4)    J. K. Rowling    1    55
-La sombra del viento    Carlos Ruiz Zafón    8    56
-Viaje al fin de la noche    Louis Ferdinand Céline    3    57
-Harry Potter y el misterio del príncipe (Harry Potter 6)    J. K. Rowling    12    58
-El juego de Ender    Orson Scott Card    7    59
-La Biblia    Desconocido    2    60
-La montaña mágica    Thomas Mann    4    61
-Harry Potter y la Orden del Fénix (Harry Potter 5)    J. K. Rowling    5    62
-El psicoanalista    John Katzenbach    6    63
-Trampa 22    Joseph Heller    13    64
-Por quién doblan las campanas    Ernest Hemingway    2    65
-Dr. Jekyll y Mr. Hyde    Robert Louis Stevenson    12    66
-El médico    Noah Gordon    4    67
-La metamorfosis    Franz Kafka    6    68
-La telaraña de Carlota    E.B. White    2    69
-La divina comedia    Dante Alighieri    7    70
-La señora Dalloway    Virginia Woolf    1    71
-Crepúsculo    Stephenie Meyer    6    72
-En el camino    Jack Kerouac    8    73
-La Iliada    Homero    4    74
-Jane Eyre    Charlotte Brontë    2    75
-Diario    Ana Frank    6    76
-El retorno del Rey    J. R. R. Tolkien    7    77
-El perfume    Patrick Süskind    11    78
-Fahrenheit 451    Ray Bradbury    1    79
-Crónica de una muerte anunciada    Gabriel García Márquez    9    80
-La casa de los espíritus    Isabel Allende    14    81
-Mientras agonizo    William Faulkner    7    82
-La isla del tesoro    Robert Louis Stevenson    14    83
-Todo se desmorona    Chinua Achebe    1    84
-Emma    Jane Austen    8    85
-Pasaje a la India    E. M. Forster    7    86
-Ficciones    Jorge Luis Borges    1    87
-Harry Potter y la cámara secreta (Harry Potter 2)    J. K. Rowling    7    88
-A sangre fría    Truman Capote    6    89
-Rimas y leyendas    Gustavo Adolfo Bécquer    3    90
-El corazón es un cazador solitario    Carson McCullers    1    91
-El Rey Lear    William Shakespeare    13    92
-Tormenta de espadas    George R. R. Martin    9    93
-Juego de tronos    George R. R. Martin    2    94
-La catedral del mar    Ildefonso Falcones    8    95
-Progreso del peregrino    John Bunyan    12    96
-El corazón de las tinieblas    Joseph Conrad    2    97
-Robinson Crusoe    Daniel Defoe    2    98
-La isla de los amores infinitos    Daína Chaviano    13    99
-David Copperfield    Charles Dickens    3    100
+Cien años de soledad    Gabriel García Márquez    7    11
+El señor de los anillos (Trilogía)    J. R. R. Tolkien    10    22
+1984    George Orwell    11    33
+Un mundo feliz    Aldous Huxley    4    44
+Orgullo y prejuicio    Jane Austen    13    55
+Crimen y castigo    Fiódor Dostoyevski    5    66
+Lolita    Vladimir Nabokov    13    77
+Ulises    James Joyce    6    88
+Madame Bovary    Gustave Flaubert    7    99
+En busca del tiempo perdido    Marcel Proust    3    1010
+Don Quijote de la Mancha    Miguel de Cervantes    12    1111
+El retrato de Dorian Gray    Oscar Wilde    9    1212
+Ana Karenina    León Tolstói    10    1313
+El Principito    Antoine de Saint-Exupéry    9    1414
+El proceso    Franz Kafka    10    1515
+El ruido y la furia    William Faulkner    4    1616
+Hamlet    William Shakespeare    9    1717
+Lo que el viento se llevó    Margaret Mitchell    3    1818
+La Odisea    Homero    12    1919
+Las uvas de la ira    John Steinbeck    14    2020
+El guardián entre el centeno    J. D. Salinger    3    2121
+Cumbres borrascosas    Emily Brontë    3    2222
+El gran Gatsby    F. Scott Fitzgerald    14    2323
+Mil soles espléndidos    Khaled Hosseini    3    2424
+Alicia en el país de las maravillas    Lewis Carroll    11    2525
+Rebelión en la granja    George Orwell    13    2626
+Los pilares de la tierra    Ken Follett    6    2727
+Guerra y paz    León Tolstói    7    2828
+Memorias de una geisha    Arthur Golden    12    2929
+Frankenstein    Mary W. Shelley    10    3030
+Los viajes de Gulliver    Jonathan Swift    2    3131
+La ladrona de libros    Markus Zusak    6    3232
+Matar a un ruiseñor    Harper Lee    3    3333
+El conde de Montecristo    Alejandro Dumas    13    3434
+Los juegos del hambre    Suzanne Collins    2    3535
+Harry Potter y la piedra filosofal (Harry Potter 1)    J. K. Rowling    10    3636
+El señor de las moscas    William Golding    1    3737
+Moby Dick    Herman Melville    8    3838
+Los miserables    Victor Hugo    2    3939
+Las aventuras de Huckleberry Finn    Mark Twain    10    4040
+Tristam Shandy    Laurence Sterne    9    4141
+Drácula    Bram Stoker    14    4242
+El nombre de la rosa    Umberto Eco    2    4343
+El extranjero    Albert Camus    4    4444
+Los hermanos Karamázov    Fiódor Dostoyevski    2    4545
+El amor en los tiempos del cólera    Gabriel García Márquez    3    4646
+Harry Potter y las reliquias de la muerte (Harry Potter 7)    J. K. Rowling    11    4747
+El código Da Vinci    Dan Brown    10    4848
+Harry Potter y el prisionero de Azkaban (Harry Potter 3)    J. K. Rowling    8    4949
+Cometas en el cielo    Khaled Hosseini    11    5050
+Ensayo sobre la ceguera    José Saramago    3    5151
+Las crónicas de Narnia    C. S. Lewis    4    5252
+Los renglones torcidos de Dios    Torcuato Luca de Tena    11    5353
+En llamas    Suzanne Collins    2    5454
+Harry Potter y el cáliz de fuego (Harry Potter 4)    J. K. Rowling    1    5555
+La sombra del viento    Carlos Ruiz Zafón    8    5656
+Viaje al fin de la noche    Louis Ferdinand Céline    3    5757
+Harry Potter y el misterio del príncipe (Harry Potter 6)    J. K. Rowling    12    5858
+El juego de Ender    Orson Scott Card    7    5959
+La Biblia    Desconocido    2    6060
+La montaña mágica    Thomas Mann    4    6161
+Harry Potter y la Orden del Fénix (Harry Potter 5)    J. K. Rowling    5    6262
+El psicoanalista    John Katzenbach    6    6363
+Trampa 22    Joseph Heller    13    6464
+Por quién doblan las campanas    Ernest Hemingway    2    6565
+Dr. Jekyll y Mr. Hyde    Robert Louis Stevenson    12    6666
+El médico    Noah Gordon    4    6767
+La metamorfosis    Franz Kafka    6    6868
+La telaraña de Carlota    E.B. White    2    6969
+La divina comedia    Dante Alighieri    7    7070
+La señora Dalloway    Virginia Woolf    1    7171
+Crepúsculo    Stephenie Meyer    6    7272
+En el camino    Jack Kerouac    8    7373
+La Iliada    Homero    4    7474
+Jane Eyre    Charlotte Brontë    2    7575
+Diario    Ana Frank    6    7676
+El retorno del Rey    J. R. R. Tolkien    7    7777
+El perfume    Patrick Süskind    11    7878
+Fahrenheit 451    Ray Bradbury    1    7979
+Crónica de una muerte anunciada    Gabriel García Márquez    9    8080
+La casa de los espíritus    Isabel Allende    14    8181
+Mientras agonizo    William Faulkner    7    8282
+La isla del tesoro    Robert Louis Stevenson    14    8383
+Todo se desmorona    Chinua Achebe    1    8484
+Emma    Jane Austen    8    8585
+Pasaje a la India    E. M. Forster    7    8686
+Ficciones    Jorge Luis Borges    1    8787
+Harry Potter y la cámara secreta (Harry Potter 2)    J. K. Rowling    7    8888
+A sangre fría    Truman Capote    6    8989
+Rimas y leyendas    Gustavo Adolfo Bécquer    3    9090
+El corazón es un cazador solitario    Carson McCullers    1    9191
+El Rey Lear    William Shakespeare    13    9292
+Tormenta de espadas    George R. R. Martin    9    9393
+Juego de tronos    George R. R. Martin    2    9494
+La catedral del mar    Ildefonso Falcones    8    9595
+Progreso del peregrino    John Bunyan    12    9696
+El corazón de las tinieblas    Joseph Conrad    2    9797
+Robinson Crusoe    Daniel Defoe    2    9898
+La isla de los amores infinitos    Daína Chaviano    13    9999
+David Copperfield    Charles Dickens    3    100100
