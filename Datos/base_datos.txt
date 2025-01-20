@@ -11,7 +11,7 @@ fernandoguerrero    2020admin    0
 raulsanchez    password2024    1
 veronicahernandez    123qwerty    0
 paulinasanchez    letmein123    1
-franciscovelasquez    1A2B3C4D    0
+franciscovelasquez    1A2B3C4D    1
 mariabernal    abcdEFGH    1
 davidcastro    5555password    0
 sofiajimenez    summer2024    1

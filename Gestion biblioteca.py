@@ -1,11 +1,11 @@
-#==================== IMPORTS ====================
+#============================== IMPORTS ==============================
 import tkinter as tk
 from tkinter import messagebox
 
 
-#==================== CLASES ====================
+#============================== CLASES ==============================
 class dato:    #Datos STOCK
-    def __init__(self, nombre, clave, state):
+    def __init__(self, nombre = None, clave = None, state = None):
         self.nombre = nombre
         self.clave = clave
         self.state = state
@@ -54,16 +54,34 @@ class checkbutton:
         self.__estado = cadena
 
 
-#==================== BASES DE DATOS ====================
+#============================== BASES DE DATOS ==============================
 #Funciones
 def leer_arch(nombre_archivo):
     try:
         with open(nombre_archivo, "r", encoding="utf-8") as base_datos:
-            lista = []
+            lista_instancias = []
             for linea in base_datos:
                 linea = linea.strip().split("    ", maxsplit=3)
-                lista.append(dato(linea[0], linea[1], linea[2]))
-        return lista
+                lista_instancias.append(dato(linea[0], linea[1], linea[2]))
+        return lista_instancias
+        
+
+    except(FileExistsError,FileNotFoundError):
+        messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
+
+def leer_arch_prestamos(nombre_archivo):
+    try:
+        with open(nombre_archivo, "r", encoding="utf-8") as base_datos:
+            lista_instancias = []   #Lista de instancias de tipo dato que recoje tantos datos como lineas tenga el archivo
+            for linea in base_datos:
+                linea = linea.strip().split("    ", maxsplit=7)
+                libros_prestados = []
+                for i, elemento in enumerate(linea):
+                    if i != 0:
+                        libros_prestados.append(elemento)
+                lista_instancias.append(dato(linea[0], libros_prestados))
+        
+        return lista_instancias
         
 
     except(FileExistsError,FileNotFoundError):
@@ -78,7 +96,7 @@ def add_arch(nombre_archivo):
         messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
 
 
-#==================== INTERFAZ ====================
+#============================== INTERFAZ ==============================
 #Confiugración inicial de la ventana
 ventana = tk.Tk()
 ventana.geometry("600x400")
@@ -114,7 +132,7 @@ def screen0():  #Sing in
     password_entry.place(relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
 
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: compr_contra(compr_user()))
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command=lambda: compr_contra(compr_user(consolidar_credenciales_usuario())))
     boton_aceptar.place(relx=0.45, rely=0.38, relwidth=0.25, relheight=0.05)
 
     # Mensaje y botón de REGÍSTRATE
@@ -146,11 +164,9 @@ def screen1():  #Sing up
     password_status = tk.StringVar()
     password_status.trace_add("write", seguridad_pssw)
     password_entry = tk.Entry(ventana, textvariable=password_status, show="*")
-    
     global seguridad_label
     seguridad_label = tk.Label(ventana, text="", fg="red")
     seguridad_label.place(relx=0.75, rely=0.3, relwidth=0.20, relheight=0.05)
-    
     password_label.place( relx=0.25, rely=0.3, relwidth=0.20, relheight=0.05)
     password_entry.place( relx=0.45, rely=0.3, relwidth=0.25, relheight=0.05)
     
@@ -182,6 +198,19 @@ def screen2():  #Main
     # Título de la ventana
     titulo = tk.Label(ventana, text="Gestión de biblioteca", font=("", 24))
     titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
+    # Usuario
+    usuario_label = tk.Label(ventana, text=usuario.nombre, bg="red")
+    usuario_label.place(relx=0.25, rely=0.23)
+    # Premium
+    if usuario.premium == True:
+        premium_label = tk.Label(ventana, text="*Premium*", bg="red")
+        premium_label.place(relx=0.60, rely=0.23)
+    # Libros en posesion
+    libros_label = tk.Label(ventana, text=f"Libros en posesión: {usuario.prestamos_activos}", bg="red")
+    libros_label.place(relx=0.25, rely=0.30)
+    #Prestamos restantes
+    prestamos_label = tk.Label(ventana, text=f"Prestamos restantes: {usuario.prestamos_restantes}", bg="red")
+    prestamos_label.place(relx=0.25, rely=0.37)
 
 def screen3():  #Solicitar libro
     #Title
@@ -198,9 +227,8 @@ def screen4():  #Devoluciones
     titulo.place(relx=0.02, rely=0.05, relwidth=0.9, relheight=0.1)
 
 
-#==================== CODIGO ====================
-
-#Funciones
+#============================== CODIGO ==============================
+#LOGIN Y REGISTRO
 def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar los dos checks a la vez
     c1 = check1.estado.get()
     c2 = check2.estado.get()
@@ -210,22 +238,41 @@ def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar 
         elif ultimo == 2: #El ultimo check en activarse fue el 2
             check1.estado.set(0)
 
-def compr_user():    #Comprueba si el usuario exist en la base de datos
+def compr_user(lista_para_comprobar):    #Comprueba si el usuario exist en la base de datos
     #Comprobamos si el usuario existe
-    name = usuario.nombre.get()
-    for i, elemento in enumerate(users_list):
+    name = usuario.nombre
+    for i, elemento in enumerate(lista_para_comprobar):
         if elemento.nombre.lower() == name.lower():
             encontrado = True   #El nombre está en la lista
             break
         encontrado = False
     return [encontrado,i]
-        
-def compr_contra(lista):    #Muestra por pantalla si el usuario existe y completa el login si la contraseña coincide.   lista -> [encontrado, i] de la funcion compr_user
-    if lista[0] == False: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")    #lista[0] == encontrado
-    elif lista[0] == True:    #Buscamos si la contraseña coincide
-        contra = usuario.password.get()
-        if contra == users_list[lista[1]].clave:    #lista[1] == i
+
+def compr_prestamos():
+    #Comprobamos si el usuario se encuentra en la lista de prestamos activos
+    lista = compr_user(prestamos_list)
+    encontrado, i = lista[0], lista[1]
+    # la cantidad de prestamos disponibles para los usuarios premium son 6 y para los no premium son 3
+    cantidad_predeterminada = 3
+    if usuario.premium == True:
+        cantidad_predeterminada += 3
+    # Prestamos activos predeterminados
+    usuario.prestamos_activos = 0
+    if encontrado == True:
+        usuario.prestamos_activos = len(prestamos_list[i].clave)
+    usuario.prestamos_restantes = cantidad_predeterminada-usuario.prestamos_activos
+    
+def compr_contra(lista):    #Muestra por pantalla si el usuario existe y COMPLETA EL LOGIN si la contraseña coincide.   lista -> [encontrado, i] de la funcion compr_user
+    encontrado = lista[0]
+    i = lista[1]
+    if encontrado == False: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")
+    elif encontrado == True:    #Buscamos si la contraseña coincide
+        contra = usuario.password
+        if contra == users_list[i].clave:
             messagebox.showinfo("Login", "Login efectuado correctamente")
+            #Completamos los datos antes de cambiar de pantalla para que tengan un formato correcto y no perderlos
+            usuario.premium = int(users_list[i].state)
+            compr_prestamos()
             change_screen(2)
         else: messagebox.showerror("Password error", "Contraseña incorrecta")
 
@@ -280,7 +327,7 @@ def puntuacion(contra):  #Función que verifica la seguridad del usuario según 
     
     return punt #Valor final de seguridad de contraseña
 
-def seguridad_pssw(*args):
+def seguridad_pssw(*args):   #Introduce True/False en usuario.seguridad_contra segun la contraseña es apta o no para el registro
     #Creamos la cadena con el nivel de seguridad de la contraseña
     cadena = "Contraseña"
     cadena += puntuacion(usuario.password.get())
@@ -296,10 +343,15 @@ def seguridad_pssw(*args):
         usuario.seguridad_contra = True
     else: usuario.seguridad_contra = False
 
-def completar_registro():
-    #Completamos los datos antes de enviarlos para que tengan un formato correcto
+def consolidar_credenciales_usuario():
     usuario.nombre = usuario.nombre.get()
     usuario.password = usuario.password.get()
+    return users_list
+
+def completar_registro():   #Añade los nuevos datos a la base de datos y vuelve a la pantalla de login
+    #Completamos los datos antes de enviarlos para que tengan un formato correcto
+    usuario.nombre = usuario.nombre
+    usuario.password = usuario.password
     #Enviamos los nuevos datos al archivo de datos
     add_arch("Datos/base_datos.txt")
     #Releemos los datos para que consten los nuevos datos en el login
@@ -310,16 +362,14 @@ def completar_registro():
     change_screen(0)
 
 def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
-    #Comprobamos si al menos un check fue puslado..
     c1 = check1.estado.get()
     c2 = check2.estado.get()
+    #Comprobamos si al menos un check fue puslado..
     if c1 == 1 or c2 == 1:
         #Comprobamos si los campos están completos
-        nombre = usuario.nombre.get()
-        contraseña = usuario.password.get()
-        if not (nombre == "" or contraseña == ""):
+        if not (usuario.nombre == "" or usuario.contraseña == ""):
             #Comprobamos que el nombre de usuario no exista
-            encontrado = compr_user()   #compr_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
+            encontrado = compr_user(users_list)   #compr_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
             if encontrado[0] == False:
                 #Comprobamos si la contraseña es segura
                 if usuario.seguridad_contra == True:
@@ -335,9 +385,17 @@ def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
         else: messagebox.showerror("User/password empty error", "Falta algún campo por rellenar, el registro no se puede completar.")
     else: messagebox.showerror("Checkbox error", "Falta algún campo por rellenar, el registro no se puede completar.")
 
+
+
+#
+
+
+
+#MAIN
 #Leemos los arcihvos y almacenamos los datos
 users_list = leer_arch("Datos/base_datos.txt")
 stock_list = leer_arch("Datos/stock_libros.txt")
+prestamos_list = leer_arch_prestamos("Datos/prestamos.txt")
 
 #Creamos el perfil del usuario vacio, los checkbuttons vacios
 usuario = user()
