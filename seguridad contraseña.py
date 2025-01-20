@@ -10,6 +10,7 @@ ventana.geometry("900x500")
 #===============================================
 def buscar_en_diccionario(*args):
     texto = variable_buscador.get()
+    print(texto)
 
 
 #Variable para el input
@@ -19,6 +20,7 @@ variable_buscador.trace_add("write", buscar_en_diccionario)
 
 #Boton de input
 tk.Entry(ventana, textvariable=variable_buscador).grid(row=0, column=0, padx=10, pady=10)
+
 
 
 
