@@ -100,6 +100,7 @@ def add_arch(nombre_archivo):
 #Confiugración inicial de la ventana
 ventana = tk.Tk()
 ventana.geometry("600x400")
+ventana.resizable(False, False)  # No permite cambiar tamaño de la ventana
 
 def change_screen(id = 0):  #Funcion que se encarga de eliminar el contenido que hay en la pantalla actual y luego llama a la funcion correspondiente al id dado
     #Eliminamos el contenido de la pantalla anterior
@@ -185,7 +186,7 @@ def screen1():  #Sing up
     ventajas_label.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
     
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command=compr_registro)
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command= lambda: compr_registro(consolidar_credenciales_usuario))
     boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
     #Mandamos los valores a class: user
@@ -204,13 +205,23 @@ def screen2():  #Main
     # Premium
     if usuario.premium == True:
         premium_label = tk.Label(ventana, text="*Premium*", bg="red")
-        premium_label.place(relx=0.60, rely=0.23)
+        premium_label.place(relx=0.55, rely=0.23)
     # Libros en posesion
     libros_label = tk.Label(ventana, text=f"Libros en posesión: {usuario.prestamos_activos}", bg="red")
     libros_label.place(relx=0.25, rely=0.30)
     #Prestamos restantes
     prestamos_label = tk.Label(ventana, text=f"Prestamos restantes: {usuario.prestamos_restantes}", bg="red")
     prestamos_label.place(relx=0.25, rely=0.37)
+    
+    # Boton VER
+    ver_button = tk.Button(ventana, text="Ver", command=pulsado_ver_button)
+    ver_button.place(relx=0.55, rely=0.30)
+    # Boton DEVOLVER LIBRO
+    devolver_libro_button = tk.Button(ventana, text="Devolver libro", command=pulsado_devolver_button)
+    devolver_libro_button.place(relx=0.62, rely=0.30)
+    # Boton PEDIR PRESTADO
+    pedir_prestado_button = tk.Button(ventana, text="Pedir prestado", command=pulsado_pedir_button)
+    pedir_prestado_button.place(relx=0.55, rely=0.37, relwidth=0.21)
 
 def screen3():  #Solicitar libro
     #Title
@@ -228,7 +239,7 @@ def screen4():  #Devoluciones
 
 
 #============================== CODIGO ==============================
-#LOGIN Y REGISTRO
+#Login y registro
 def checkbutton_no_iguales(ultimo): #Funcionalidad para que no se puedan pulsar los dos checks a la vez
     c1 = check1.estado.get()
     c2 = check2.estado.get()
@@ -387,11 +398,27 @@ def compr_registro():  #Comprueba si el registro se puede efectuar correctamente
 
 
 
-#
+#Pagina principal
+def pulsado_ver_button():
+    if usuario.prestamos_activos > 0:
+        lista = compr_user(prestamos_list)
+        indice = lista[1]
+        lista = prestamos_list[indice].clave
+        texto = ""
+        for titulo in lista:
+            texto += titulo + "\n"
+    else:
+        texto = "No hay libros prestados actualmente"
+    messagebox.showinfo("Libros prestados", texto)
+
+def pulsado_devolver_button():
+    pass
+
+def pulsado_pedir_button():
+    pass
 
 
-
-#MAIN
+#MAIN CODE
 #Leemos los arcihvos y almacenamos los datos
 users_list = leer_arch("Datos/base_datos.txt")
 stock_list = leer_arch("Datos/stock_libros.txt")
