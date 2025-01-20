@@ -135,12 +135,23 @@ def label_inicio():
         premium_label.place(relx=0.55, rely=0.23)
 
 def devoluciones_disponibles():
-    checkbuttons_lista = []
-    for i, titulo in enumerate(usuario.prestamos_activos):
-        libro_label = tk.Label(ventana, text=titulo)
-        libro_label.place(relx=0.25, rely=0.30+0.07)
-        # Checkbuttons
-        checkbuttons_lista.append(checkbutton())
+    # Variable IntVar para controlar los Checkbuttons (solo uno seleccionado)
+    variable_checkbutton = tk.IntVar()
+    variable_checkbutton.set(-1)    #Ningún Checkbutton seleccionado inicialmente
+    for indice, titulo in enumerate(usuario.prestamos_activos):
+        #Label con el titulo del libro
+        tk.Label(ventana, text=titulo).place(relx=0.25, rely=0.37+(0.07*indice))
+        #Creamos los checkbuttons de manera dinámica
+        checkbutton_dinamico = tk.Checkbutton(
+            ventana,
+            variable= variable_checkbutton,
+            onvalue= indice,  # Este Checkbutton se selecciona cuando seleccion == indice
+            offvalue= -1     # Cuando se deselecciona, seleccion vuelve a -1
+        )
+        checkbutton_dinamico.place(relx=0.20, rely=0.37+(0.07*indice))
+    # Boton para aceptar
+    aceptar_button = tk.Button(ventana, text="Aceptar", command=lambda: pulsado_aceptar_devolucion(variable_checkbutton))
+    aceptar_button.place(relx=0.25, rely=0.37+(0.07*(indice+1)))
 
 # Screens
 def screen0():  #Sing in
@@ -210,7 +221,7 @@ def screen1():  #Sing up
     ventajas_label.place(relx=0.18, rely=0.44, relwidth=0.76, relheight=0.08)
     
     # Botón ACEPTAR
-    boton_aceptar = tk.Button(ventana, text="Aceptar", command= lambda: comprobar_registro(consolidar_credenciales_usuario))
+    boton_aceptar = tk.Button(ventana, text="Aceptar", command= lambda: comprobar_registro(consolidar_credenciales_usuario()))
     boton_aceptar.place(relx=0.45, rely=0.60, relwidth=0.25, relheight=0.05)
     
     #Mandamos los valores a class: user
@@ -253,6 +264,7 @@ def screen4():  #Devoluciones
     info_label = tk.Label(ventana, text="Seleccione el libro que desea devolver")
     info_label.place(relx=0.25, rely=0.30)
     # Muestra los libros disponibles para devolucion con checkbuttons
+    devoluciones_disponibles()
 
 #============================== CODIGO ==============================
 #Login y registro
@@ -292,7 +304,9 @@ def comprobar_prestamos():  # Rellena la informacion usuario.prestamos_activos y
 def comprobar_contra(lista):    #Muestra por pantalla si el usuario existe y COMPLETA EL LOGIN si la contraseña coincide.   lista -> [encontrado, i] de la funcion comprobar_user
     encontrado = lista[0]
     i = lista[1]
-    if encontrado == False: messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")
+    if encontrado == False: 
+        messagebox.showerror("Error usuario", f"No se ha encontrado el nombre de usuario")
+        change_screen(0)
     elif encontrado == True:    #Buscamos si la contraseña coincide
         contra = usuario.password
         if contra == users_list[i].clave:
@@ -301,7 +315,9 @@ def comprobar_contra(lista):    #Muestra por pantalla si el usuario existe y COM
             usuario.premium = int(users_list[i].state)
             comprobar_prestamos()
             change_screen(2)
-        else: messagebox.showerror("Password error", "Contraseña incorrecta")
+        else: 
+            messagebox.showerror("Password error", "Contraseña incorrecta")
+            change_screen(0)
 
 def puntuacion(contra):  #Función que verifica la seguridad del usuario según varios factores y devuelve una puntuación que va desde -6 hasta 6 según su seguridad
     punt = 0
@@ -375,26 +391,13 @@ def consolidar_credenciales_usuario():
     usuario.password = usuario.password.get()
     return users_list
 
-def completar_registro():   #Añade los nuevos datos a la base de datos y vuelve a la pantalla de login
-    #Completamos los datos antes de enviarlos para que tengan un formato correcto
-    usuario.nombre = usuario.nombre
-    usuario.password = usuario.password
-    #Enviamos los nuevos datos al archivo de datos
-    add_arch("Datos/base_datos.txt")
-    #Releemos los datos para que consten los nuevos datos en el login
-    global users_list
-    users_list = leer_arch("Datos/base_datos.txt")
-    #Cambiamos a la pantalla de login
-    messagebox.showinfo(message="Registro completado correctamente")
-    change_screen(0)
-
-def comprobar_registro():  #comprobarueba si el registro se puede efectuar correctamente
+def comprobar_registro(*args):  #comprobarueba si el registro se puede efectuar correctamente
     c1 = check1.estado.get()
     c2 = check2.estado.get()
     #comprobarobamos si al menos un check fue puslado..
     if c1 == 1 or c2 == 1:
         #comprobarobamos si los campos están completos
-        if not (usuario.nombre == "" or usuario.contraseña == ""):
+        if not (usuario.nombre == "" or usuario.password == ""):
             #comprobarobamos que el nombre de usuario no exista
             encontrado = comprobar_user(users_list)   #comprobar_user devuelve un array [True/False(si lo encuentra o no), indice de donde está en el arreglo de usuarios de datos]
             if encontrado[0] == False:
@@ -405,13 +408,28 @@ def comprobar_registro():  #comprobarueba si el registro se puede efectuar corre
                     else: usuario.premium = 0
                     #Completamos el registro
                     completar_registro()
-                
-                
-                else: messagebox.showerror("Security error", "La contraseña es demasiado débil, el registro no se puede completar.")
-            else: messagebox.showerror("User already exists error", "El nombre de usuario ya existe, prueba con otro.")
-        else: messagebox.showerror("User/password empty error", "Falta algún campo por rellenar, el registro no se puede completar.")
-    else: messagebox.showerror("Checkbox error", "Falta algún campo por rellenar, el registro no se puede completar.")
+                else:
+                    messagebox.showerror("Security error", "La contraseña es demasiado débil, el registro no se puede completar.")
+                    change_screen(1)
+            else:
+                messagebox.showerror("User already exists error", "El nombre de usuario ya existe, prueba con otro.")
+                change_screen(1)
+        else:
+            messagebox.showerror("User/password empty error", "Falta algún campo por rellenar, el registro no se puede completar.")
+            change_screen(1)
+    else:
+        messagebox.showerror("Checkbox error", "Falta algún campo por rellenar, el registro no se puede completar.")
+        change_screen(1)
 
+def completar_registro():   #Añade los nuevos datos a la base de datos y vuelve a la pantalla de login
+    #Enviamos los nuevos datos al archivo de datos
+    add_arch("Datos/base_datos.txt")
+    #Releemos los datos para que consten los nuevos datos en el login
+    global users_list
+    users_list = leer_arch("Datos/base_datos.txt")
+    #Cambiamos a la pantalla de login
+    messagebox.showinfo(message="Registro completado correctamente")
+    change_screen(0)
 
 
 #Pagina principal
@@ -439,6 +457,12 @@ def pulsado_devolver_button():
     else:
         change_screen(4)
 
+def pulsado_aceptar_devolucion(indice):
+    if indice.get() == -1:
+        messagebox("Seleccion error", "Selecciona un libro para devolver")
+    else:
+        libro_seleccionado = usuario.prestamos_activos[indice.get()]
+        print(f"Has seleccionado: {libro_seleccionado}")
 
 
 
