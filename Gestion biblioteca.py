@@ -10,6 +10,13 @@ class dato:    #Datos STOCK
         self.clave = clave
         self.state = state
 
+    def valores_no_none(self):
+        lista = []
+        if self.nombre != None: lista.append(self.nombre)
+        if self.clave != None: lista.append(self.clave)
+        if self.state != None: lista.append(self.state)
+        return lista
+
 class user:
     def __init__(self, nombre = None, password = None, premium = None, prestamos_activos = None, prestamos_restantes = None, seguridad_contra = None):
         self.__nombre = nombre
@@ -101,6 +108,31 @@ def leer_stock_y_prestamos():
     global prestamos_list
     prestamos_list = leer_arch_prestamos("Datos/prestamos.txt")
     pass
+
+def escribir_arch(nombre_archivo, lista):
+    try:
+        cadena = ""
+        for i, dato in enumerate(lista):
+            lista_aux = dato.valores_no_none()    #Almacena en lista_aux todos los valores validos de dato
+            for indx, lista_aux2 in enumerate(lista_aux):
+                if type(lista_aux2) == list:
+                    for elemento in lista_aux2:
+                        if indx != 0: cadena += "    "+str(elemento)
+                        else: cadena += str(elemento)
+                else:
+                    if indx != 0: cadena += "    "+str(lista_aux2)
+                    else: cadena += str(lista_aux2)
+            if i != len(lista)-1:
+                cadena += "\n"
+        with open(nombre_archivo, "w", encoding="utf-8") as base_datos:
+            base_datos.write(cadena)
+    
+    except(FileExistsError,FileNotFoundError):
+        messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
+        
+        
+    
+        
 
 
 #============================== INTERFAZ ==============================
@@ -233,7 +265,8 @@ def screen1():  #Sing up
 
 def screen2():  #Main
     # Leemos los archivos de stock y prestamos
-    leer_stock_y_prestamos()    
+    leer_stock_y_prestamos()
+    comprobar_prestamos()
     # Título de la ventana
     titulo("Main")
     #Usuario y premium
@@ -470,23 +503,27 @@ def pulsado_aceptar_devolucion(indice):
         #Eliminamos el libro prestado
         for indice_prestamos_list ,usuario_prestamos in enumerate(prestamos_list):
             if usuario_prestamos.nombre == usuario.nombre:   #Buscamos en la lista de prestamos el usuario
-                prestamos_list[indice_prestamos_list].clave.pop(indice.get())   # Se elimina el valor en memoria que corresponde tanto a usuario.prestamos_activos como a este
+                titulo_devuelto = prestamos_list[indice_prestamos_list].clave.pop(indice.get())   # Se elimina el valor en memoria que corresponde tanto a usuario.prestamos_activos como a este
                 break
         #Renovamos los datos de las listas
-        refresh_prestamos_list()
-        refresh_stock_list()
+        refresh_prestamos_list(indice_prestamos_list)
+        refresh_stock_list(titulo_devuelto)
         #Cargamos los datos de las listas en los archivos
+        escribir_arch("Datos/prestamos.txt", prestamos_list)
+        escribir_arch("Datos/stock_libros.txt", stock_list)
         #Volvemos a la pagina principal
         change_screen(2)
 
-def refresh_prestamos_list():
-    #Los datos en la lista ya están actualizados por el metodo .pop() anterior
-    #Comprobamos si algun usuario de prestamos_list ya no tiene ningún libro asociado para eliminarlo de la lista
+def refresh_prestamos_list(indice_usuario):   # Verifica si el usuario de prestamos_list ya no tiene ningún libro asociado, si es asi se eliminará de la lista
+    if len(prestamos_list[indice_usuario].clave) == 0:
+        prestamos_list.pop(indice_usuario)#Eliminamos por completo al usuario de prestamos_list
     
-    pass
 
-def refresh_stock_list():
-    pass
+def refresh_stock_list(titulo_devuelto):   #Suma 1 a la cantidad de stock del titulo devuelto a la lista de stock
+    for libro in stock_list:
+        if libro.nombre == titulo_devuelto:
+            libro.state = int(libro.state)
+            libro.state += 1
 
 #MAIN CODE
 #Leemos los arcihvos y almacenamos los datos
