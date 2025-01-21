@@ -95,6 +95,13 @@ def add_arch(nombre_archivo):
     except(FileExistsError,FileNotFoundError):
         messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
 
+def leer_stock_y_prestamos():
+    global stock_list
+    stock_list = leer_arch("Datos/stock_libros.txt")
+    global prestamos_list
+    prestamos_list = leer_arch_prestamos("Datos/prestamos.txt")
+    pass
+
 
 #============================== INTERFAZ ==============================
 # Confiugración inicial de la ventana
@@ -107,9 +114,6 @@ def change_screen(id = 0):  #Funcion que se encarga de eliminar el contenido que
     #Eliminamos el contenido de la pantalla anterior
     for widget in ventana.winfo_children():
         widget.destroy()
-    
-    
-    
     if   id == 0: screen0()   #SING IN 
     elif id == 1: screen1()   #SING UP
     elif id == 2: screen2()   #MAIN
@@ -117,7 +121,6 @@ def change_screen(id = 0):  #Funcion que se encarga de eliminar el contenido que
     elif id == 4: screen4()   #DEVOLICIONES
 
 # Funciones extra
-
 def titulo(name="tittle sin modificar"):
     #Tittle
     ventana.title(name)
@@ -140,7 +143,7 @@ def devoluciones_disponibles():
     variable_checkbutton.set(-1)    #Ningún Checkbutton seleccionado inicialmente
     for indice, titulo in enumerate(usuario.prestamos_activos):
         #Label con el titulo del libro
-        tk.Label(ventana, text=titulo).place(relx=0.25, rely=0.37+(0.07*indice))
+        tk.Label(ventana, text=titulo).place(relx=0.325, rely=0.37+(0.07*indice))
         #Creamos los checkbuttons de manera dinámica
         checkbutton_dinamico = tk.Checkbutton(
             ventana,
@@ -148,10 +151,10 @@ def devoluciones_disponibles():
             onvalue= indice,  # Este Checkbutton se selecciona cuando seleccion == indice
             offvalue= -1     # Cuando se deselecciona, seleccion vuelve a -1
         )
-        checkbutton_dinamico.place(relx=0.20, rely=0.37+(0.07*indice))
+        checkbutton_dinamico.place(relx=0.275, rely=0.37+(0.07*indice))
     # Boton para aceptar
     aceptar_button = tk.Button(ventana, text="Aceptar", command=lambda: pulsado_aceptar_devolucion(variable_checkbutton))
-    aceptar_button.place(relx=0.25, rely=0.37+(0.07*(indice+1)))
+    aceptar_button.place(relx=0.275, rely=0.37+(0.07*(indice+1)))
 
 # Screens
 def screen0():  #Sing in
@@ -229,6 +232,8 @@ def screen1():  #Sing up
     usuario.password = password_entry
 
 def screen2():  #Main
+    # Leemos los archivos de stock y prestamos
+    leer_stock_y_prestamos()    
     # Título de la ventana
     titulo("Main")
     #Usuario y premium
@@ -261,7 +266,7 @@ def screen4():  #Devoluciones
     #Usuario y premium
     label_inicio()
     #Label informacion extra
-    info_label = tk.Label(ventana, text="Seleccione el libro que desea devolver")
+    info_label = tk.Label(ventana, text="Seleccione el libro que desea devolver", font=("", 12, "bold"), bg="gray")
     info_label.place(relx=0.25, rely=0.30)
     # Muestra los libros disponibles para devolucion con checkbuttons
     devoluciones_disponibles()
@@ -313,6 +318,7 @@ def comprobar_contra(lista):    #Muestra por pantalla si el usuario existe y COM
             messagebox.showinfo("Login", "Login efectuado correctamente")
             #Completamos los datos antes de cambiar de pantalla para que tengan un formato correcto y no perderlos
             usuario.premium = int(users_list[i].state)
+            leer_stock_y_prestamos()
             comprobar_prestamos()
             change_screen(2)
         else: 
@@ -459,18 +465,33 @@ def pulsado_devolver_button():
 
 def pulsado_aceptar_devolucion(indice):
     if indice.get() == -1:
-        messagebox("Seleccion error", "Selecciona un libro para devolver")
+        messagebox.showerror("Seleccion error", "Selecciona un libro para devolver")
     else:
-        libro_seleccionado = usuario.prestamos_activos[indice.get()]
-        print(f"Has seleccionado: {libro_seleccionado}")
+        #Eliminamos el libro prestado
+        for indice_prestamos_list ,usuario_prestamos in enumerate(prestamos_list):
+            if usuario_prestamos.nombre == usuario.nombre:   #Buscamos en la lista de prestamos el usuario
+                prestamos_list[indice_prestamos_list].clave.pop(indice.get())   # Se elimina el valor en memoria que corresponde tanto a usuario.prestamos_activos como a este
+                break
+        #Renovamos los datos de las listas
+        refresh_prestamos_list()
+        refresh_stock_list()
+        #Cargamos los datos de las listas en los archivos
+        #Volvemos a la pagina principal
+        change_screen(2)
 
+def refresh_prestamos_list():
+    #Los datos en la lista ya están actualizados por el metodo .pop() anterior
+    #Comprobamos si algun usuario de prestamos_list ya no tiene ningún libro asociado para eliminarlo de la lista
+    
+    pass
 
+def refresh_stock_list():
+    pass
 
 #MAIN CODE
 #Leemos los arcihvos y almacenamos los datos
 users_list = leer_arch("Datos/base_datos.txt")
-stock_list = leer_arch("Datos/stock_libros.txt")
-prestamos_list = leer_arch_prestamos("Datos/prestamos.txt")
+
 
 #Creamos el perfil del usuario vacio, los checkbuttons vacios
 usuario = user()

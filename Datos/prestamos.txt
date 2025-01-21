@@ -1,4 +1,11 @@
-carolinagomez    TituloLibro    TituloLibro    TituloLibro    TituloLibro
-nombreUsuario    TituloLibro    TituloLibro
-nombreUsuario    TituloLibro    TituloLibro    TituloLibro
-a    titulo1    titulo2    titulo3    titulo4    titulo5    titulo6
+a    Cien años de soledad    Un mundo feliz    Don Quijote de la Mancha    El Principito
+b    Madame Bovary
+rosariogutierrez    Orgullo y prejuicio    Lolita    Crimen y castigo
+josephrojas    Crimen y castigo    En busca del tiempo perdido
+monicacruz    Lolita    
+fernandoguerrero    Ulises    
+raulsanchez    Madame Bovary    Don Quijote de la Mancha
+veronicahernandez    En busca del tiempo perdido    Ana Karenina
+paulinasanchez    Don Quijote de la Mancha    
+franciscovelasquez    El retrato de Dorian Gray    
+mariabernal    Ana Karenina    Madame Bovary
