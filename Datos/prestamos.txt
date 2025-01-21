@@ -1,11 +1,10 @@
-a    Cien años de soledad    Un mundo feliz    Don Quijote de la Mancha    El Principito
-b    Madame Bovary
 rosariogutierrez    Orgullo y prejuicio    Lolita    Crimen y castigo
 josephrojas    Crimen y castigo    En busca del tiempo perdido
-monicacruz    Lolita    
-fernandoguerrero    Ulises    
+monicacruz    Lolita
+fernandoguerrero    Ulises
 raulsanchez    Madame Bovary    Don Quijote de la Mancha
 veronicahernandez    En busca del tiempo perdido    Ana Karenina
-paulinasanchez    Don Quijote de la Mancha    
-franciscovelasquez    El retrato de Dorian Gray    
+paulinasanchez    Don Quijote de la Mancha
+franciscovelasquez    El retrato de Dorian Gray
 mariabernal    Ana Karenina    Madame Bovary
+warell    A sangre fría    Cumbres borrascosas    David Copperfield    Cien años de soledad    Cometas en el cielo    El corazón es un cazador solitario

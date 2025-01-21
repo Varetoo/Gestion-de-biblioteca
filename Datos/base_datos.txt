@@ -20,6 +20,4 @@ sofiajimenez    summer2024    1
 jorgeluis    1admin2    0
 isabelperez    9G7f6Z2r    1
 carlosdiaz    q1w2e3r4t5    0
-.!entry3    .!entry4    1
-.!entry3    .!entry4    1
-user1234    1234abcd    1
+warell    hola24    1

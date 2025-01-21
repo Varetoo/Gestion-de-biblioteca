@@ -1,7 +1,7 @@
 #============================== IMPORTS ==============================
 import tkinter as tk
 from tkinter import messagebox
-
+from tkinter import ttk
 
 #============================== CLASES ==============================
 class dato:    #Datos STOCK
@@ -59,7 +59,6 @@ class checkbutton:
     @estado.setter
     def estado(self, cadena):
         self.__estado = cadena
-
 
 #============================== BASES DE DATOS ==============================
 #Funciones
@@ -129,11 +128,6 @@ def escribir_arch(nombre_archivo, lista):
     
     except(FileExistsError,FileNotFoundError):
         messagebox.showerror("Error archivo", f"Hay un error con el archivo de datos {nombre_archivo}")
-        
-        
-    
-        
-
 
 #============================== INTERFAZ ==============================
 # Confiugración inicial de la ventana
@@ -187,6 +181,9 @@ def devoluciones_disponibles():
     # Boton para aceptar
     aceptar_button = tk.Button(ventana, text="Aceptar", command=lambda: pulsado_aceptar_devolucion(variable_checkbutton))
     aceptar_button.place(relx=0.275, rely=0.37+(0.07*(indice+1)))
+
+def actualizar_scroll(event):   # Ajustar el tamaño del canvas automáticamente al contenido del frame
+    canvas.configure(scrollregion=canvas.bbox("all"))
 
 # Screens
 def screen0():  #Sing in
@@ -292,6 +289,52 @@ def screen3():  #Solicitar libro
     titulo("Solicitar libro")
     #Usuario y premium
     label_inicio()
+    #Label informacion extra
+    info_label = tk.Label(ventana, text="Seleccione el libro que desea pedir prestado", font=("", 12, "bold"), bg="gray")
+    info_label.place(relx=0.25, rely=0.30)
+    #Buscador
+    buscador_label = tk.Label(ventana, text="-- Futuro Buscador --", bg="green")
+    buscador_label.place(relx=0.25, rely=0.37)
+    
+    # --- RECUADRO ---
+    #Canvas y scrollbar
+    global canvas
+    canvas = tk.Canvas(ventana, background="lightgrey")
+    scrollbar = tk.Scrollbar(ventana, orient="vertical", command=canvas.yview)
+    canvas.configure(yscrollcommand=scrollbar.set)
+    #Colocamos el canvas y el scrollbar en la ventana
+    canvas.place(relx=0.25, rely=0.44, relwidth=0.56, relheight=0.4)
+    scrollbar.place(relx=0.8, rely=0.44, relwidth=0.02, relheight=0.4)
+    #Creamos el frame de dentro del canvas
+    frame_contenido = tk.Frame(canvas, bg="lightgrey")
+    canvas.create_window((0, 0), window=frame_contenido, anchor="nw")
+    #Bindeamos el scroll con el frame
+    frame_contenido.bind("<Configure>", actualizar_scroll)
+    #Lista para almacenar el estado de los checkbuttons
+    lista_estado_checks = []
+    #Agregamos todos los titulos en forma de label
+    for elemento in stock_list:
+        #Variable para el checkbutton
+        var = tk.BooleanVar()
+        lista_estado_checks.append(var)
+        
+        # Creamos un contenedor para el Checkbutton y el Label
+        item_frame = tk.Frame(frame_contenido, bg="lightgrey")
+        item_frame.pack(fill="x", pady=2)  # Separación vertical entre elementos
+
+        # Creamos el Checkbutton
+        check = tk.Checkbutton(item_frame, variable=var, bg="lightgrey")
+        check.pack(side="left", padx=5)  # Alineado a la izquierda con margen
+
+        # Creamos el Label
+        label = tk.Label(item_frame, text=(elemento.nombre) + ", de " + (elemento.clave), bg="lightgrey")
+        label.pack(side="left")  # Alineado a la derecha del Checkbutton
+    #Guardamos la lista con los checks en una clase para poder tener acceso a ella
+    check_lista.estado = lista_estado_checks
+    
+    #Boton aceptar pedir
+    aceptar_button = tk.Button(ventana, text="Aceptar", command=pulsado_aceptar_pedir)
+    aceptar_button.place(relx=0.25, rely=0.86)
 
 def screen4():  #Devoluciones
     # Título de la ventana
@@ -470,7 +513,6 @@ def completar_registro():   #Añade los nuevos datos a la base de datos y vuelve
     messagebox.showinfo(message="Registro completado correctamente")
     change_screen(0)
 
-
 #Pagina principal
 def pulsado_ver_button():
     if len(usuario.prestamos_activos) > 0:
@@ -496,6 +538,7 @@ def pulsado_devolver_button():
     else:
         change_screen(4)
 
+#Devolver
 def pulsado_aceptar_devolucion(indice):
     if indice.get() == -1:
         messagebox.showerror("Seleccion error", "Selecciona un libro para devolver")
@@ -507,33 +550,64 @@ def pulsado_aceptar_devolucion(indice):
                 break
         #Renovamos los datos de las listas
         refresh_prestamos_list(indice_prestamos_list)
-        refresh_stock_list(titulo_devuelto)
+        refresh_stock_list(titulo_devuelto, 1)  #Sumamos 1 al stock
         #Cargamos los datos de las listas en los archivos
         escribir_arch("Datos/prestamos.txt", prestamos_list)
         escribir_arch("Datos/stock_libros.txt", stock_list)
         #Volvemos a la pagina principal
         change_screen(2)
 
-def refresh_prestamos_list(indice_usuario):   # Verifica si el usuario de prestamos_list ya no tiene ningún libro asociado, si es asi se eliminará de la lista
+def refresh_prestamos_list(indice_usuario):   # Verifica si el usuario de prestamos_list[indice] ya no tiene ningún libro asociado, si es asi se eliminará de la lista
     if len(prestamos_list[indice_usuario].clave) == 0:
         prestamos_list.pop(indice_usuario)#Eliminamos por completo al usuario de prestamos_list
-    
 
-def refresh_stock_list(titulo_devuelto):   #Suma 1 a la cantidad de stock del titulo devuelto a la lista de stock
+def refresh_stock_list(titulo, num = 1):   #Suma 'num' a la cantidad de stock del 'titulo' correspondiente a la lista de stock
     for libro in stock_list:
-        if libro.nombre == titulo_devuelto:
+        if libro.nombre == titulo:
             libro.state = int(libro.state)
-            libro.state += 1
+            libro.state += num
+
+#Pedir
+def pulsado_aceptar_pedir():
+    seleccionados_indices = [i for i, var in enumerate(check_lista.estado) if var.get()]
+    if len(seleccionados_indices) > 1:
+        messagebox.showerror("Prestamos sobrepasados", "Selecciona solo un prestamo por vez")
+        change_screen(2)
+    elif len(seleccionados_indices) == 0:
+        messagebox.showerror("", "Selecciona algún libro para pedir prestado")
+        change_screen(2)
+    else:   #No hay ningun error
+        indice = seleccionados_indices[0]
+        #Comprobamos que haya stock del libro pedido
+        if int(stock_list[indice].state) == 0:
+            messagebox.showinfo("Out of stock", "Lo sentimos, actualmente no hay stock de este libro,\ntendrás que esperar a que alguien lo devuelva para poder alquilarlo")
+            change_screen(2)
+        else:
+            # Restar 1 al stock del libro
+            refresh_stock_list(stock_list[indice].nombre, -1)
+            # Añadir el libro a la lista de prestamos
+                #Comprobamos si el usuario ya está en la lista para añadirlo en su "apartado" o crear uno nuevo
+            if len(usuario.prestamos_activos) > 0:
+                for elemento in prestamos_list:
+                    if elemento.nombre == usuario.nombre:
+                        elemento.clave.append(stock_list[indice].nombre)
+                        break
+            else:   #Si el usuario no tiene prestamos activos..
+                prestamos_list.append(dato(usuario.nombre, stock_list[indice].nombre))
+            #Cargamos los datos de las listas en los archivos
+            escribir_arch("Datos/prestamos.txt", prestamos_list)
+            escribir_arch("Datos/stock_libros.txt", stock_list)
+            change_screen(2)
 
 #MAIN CODE
 #Leemos los arcihvos y almacenamos los datos
 users_list = leer_arch("Datos/base_datos.txt")
 
-
 #Creamos el perfil del usuario vacio, los checkbuttons vacios
 usuario = user()
 check1 = checkbutton()
 check2 = checkbutton()
+check_lista = checkbutton()
 seguridad_pssw_texto = ""
 
 #Lanzamos la interfaz
